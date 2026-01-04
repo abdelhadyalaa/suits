@@ -4,9 +4,10 @@ import 'app_image.dart';
 
 class AppInput extends StatefulWidget {
   final String? suffixIcon;
+  final String? prefixIcon;
   final TextInputType keyboardType;
   final Color? vColor;
-  final String hint, label;
+  final String hint, label, prefixImage;
   final bool withCountryCode, isPassword, isBig;
   final double? bottomSpace;
 
@@ -21,6 +22,8 @@ class AppInput extends StatefulWidget {
     this.vColor,
     this.isBig = false,
     this.keyboardType = TextInputType.text,
+    this.prefixIcon,
+    this.prefixImage = "",
   });
 
   @override
@@ -59,18 +62,29 @@ class _AppInputState extends State<AppInput> {
                   borderSide: const BorderSide(color: Colors.red, width: 2.0),
                 ),
 
-                fillColor: Colors.grey.shade100,
+                fillColor: Colors.white,
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(24),
                   borderSide: BorderSide(color: Colors.grey),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: const BorderSide(color: Colors.blue, width: 2),
+                  borderRadius: BorderRadius.circular(24),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                    width: 2,
+                  ),
                 ),
                 labelText: widget.label,
                 labelStyle: TextStyle(color: Colors.black),
                 hintText: widget.hint,
+                prefixIcon: widget.prefixImage.isNotEmpty
+                    ? AppImage(
+                  image: widget.prefixImage,
+                  width: 20,
+                  height: 20,
+                )
+                    : null,
+
                 suffixIcon: widget.isPassword
                     ? IconButton(
                         onPressed: () {
@@ -84,7 +98,12 @@ class _AppInputState extends State<AppInput> {
                         ),
                       )
                     : widget.suffixIcon != null
-                    ? AppImage(image: widget.suffixIcon!, height: 18, width: 18)
+                    ? AppImage(
+                        image: widget.suffixIcon!,
+                        height: 18,
+                        width: 18,
+                        color: Colors.black,
+                      )
                     : null,
               ),
             ),

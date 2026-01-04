@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suits/splash.dart';
+import 'package:suits/views/auth/create_new_password.dart';
+import 'package:suits/views/auth/forget_password.dart';
+import 'package:suits/views/auth/login.dart';
+import 'package:suits/views/auth/otp.dart';
+import 'package:suits/views/auth/register.dart';
 
 import 'core/logic/helper_methods.dart';
 import 'on_boarding.dart';
@@ -31,7 +36,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
 
           appBarTheme: AppBarTheme(
-            backgroundColor: Color(0xffFFFFFF),
+            backgroundColor: Color(0xffF4F5F7),
             elevation: 0,
           ),
           primaryColor: Color(0xffDD8560),
@@ -49,9 +54,9 @@ class MyApp extends StatelessWidget {
             ),
             titleSmall: TextStyle(fontSize: 6, fontWeight: FontWeight.w400),
           ),
-          scaffoldBackgroundColor: Color(0xffFFFFFF),
+          scaffoldBackgroundColor: Color(0xffF4F5F7),
         ),
-        home: OnBoarding(),
+        home: CreateNewPassword(),
         navigatorKey: navKey,
 
       ),
