@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:suits/splash.dart';
-import 'package:suits/views/auth/create_new_password.dart';
-import 'package:suits/views/auth/forget_password.dart';
-import 'package:suits/views/auth/login.dart';
-import 'package:suits/views/auth/otp.dart';
-import 'package:suits/views/auth/register.dart';
+
+import 'package:suits/views/home/view.dart';
+import 'package:suits/views/checkout_cycle/payment_methods.dart';
 
 import 'core/logic/helper_methods.dart';
-import 'on_boarding.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +30,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-
           appBarTheme: AppBarTheme(
             backgroundColor: Color(0xffF4F5F7),
             elevation: 0,
@@ -56,9 +51,8 @@ class MyApp extends StatelessWidget {
           ),
           scaffoldBackgroundColor: Color(0xffF4F5F7),
         ),
-        home: CreateNewPassword(),
+        home: PaymentMethods(),
         navigatorKey: navKey,
-
       ),
     );
   }
