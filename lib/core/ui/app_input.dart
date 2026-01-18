@@ -9,7 +9,7 @@ class AppInput extends StatefulWidget {
   final Color? vColor;
   final String hint, label, prefixImage;
   final bool withCountryCode, isPassword, isBig;
-  final double? bottomSpace;
+  final double? bottomSpace, radius;
 
   const AppInput({
     super.key,
@@ -24,6 +24,7 @@ class AppInput extends StatefulWidget {
     this.keyboardType = TextInputType.text,
     this.prefixIcon,
     this.prefixImage = "",
+    this.radius = 24,
   });
 
   @override
@@ -35,6 +36,8 @@ class _AppInputState extends State<AppInput> {
 
   @override
   Widget build(BuildContext context) {
+    final double effectiveRadius = widget.radius ?? 24;
+
     return Padding(
       padding: EdgeInsets.only(bottom: widget.bottomSpace ?? 16.h),
       child: Row(
@@ -64,7 +67,7 @@ class _AppInputState extends State<AppInput> {
 
                 fillColor: Colors.white,
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(effectiveRadius),
                   borderSide: BorderSide(color: Colors.grey),
                 ),
                 focusedBorder: OutlineInputBorder(
@@ -78,11 +81,7 @@ class _AppInputState extends State<AppInput> {
                 labelStyle: TextStyle(color: Colors.black),
                 hintText: widget.hint,
                 prefixIcon: widget.prefixImage.isNotEmpty
-                    ? AppImage(
-                  image: widget.prefixImage,
-                  width: 20,
-                  height: 20,
-                )
+                    ? AppImage(image: widget.prefixImage, width: 20, height: 20)
                     : null,
 
                 suffixIcon: widget.isPassword

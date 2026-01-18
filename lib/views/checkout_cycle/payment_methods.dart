@@ -138,6 +138,7 @@ class _CustomProductRadioPickerState extends State<CustomProductRadioPicker> {
       onTap: () {
         setState(() {
           selectedValue = id;
+
         });
       },
       borderRadius: BorderRadius.circular(15.r),

@@ -16,15 +16,12 @@ class FinalPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              SizedBox(height: 34.h,),
+              SizedBox(height: 34.h),
               Row(
                 children: [
                   Container(
                     width: 137.w,
-                    // height: 370,
                     decoration: BoxDecoration(
-                      color: Colors.green,
-
                       borderRadius: BorderRadius.circular(100.r),
                     ),
                     child: Center(child: AppImage(image: "boarding3.jpg")),
