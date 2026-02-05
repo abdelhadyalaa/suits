@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_image.dart';
 
 class AppInput extends StatefulWidget {
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
   final String? suffixIcon;
   final String? prefixIcon;
   final TextInputType keyboardType;
@@ -25,6 +27,8 @@ class AppInput extends StatefulWidget {
     this.prefixIcon,
     this.prefixImage = "",
     this.radius = 24,
+    this.controller,
+    this.validator,
   });
 
   @override
@@ -44,15 +48,18 @@ class _AppInputState extends State<AppInput> {
         children: [
           Expanded(
             child: TextFormField(
+              controller: widget.controller,
               keyboardType: widget.keyboardType,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return widget.isPassword
-                      ? "Please Put Your Password"
-                      : 'Please Put Your Data';
-                }
-                return null;
-              },
+              validator:
+                  widget.validator ??
+                  (value) {
+                    if (value == null || value.isEmpty) {
+                      return widget.isPassword
+                          ? "Please Put Your Password"
+                          : 'Please Put Your Data';
+                    }
+                    return null;
+                  },
               maxLines: widget.isBig ? 4 : 1,
               obscureText: widget.isPassword && isHidden,
               decoration: InputDecoration(

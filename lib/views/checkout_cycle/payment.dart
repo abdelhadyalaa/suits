@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:suits/core/logic/helper_methods.dart';
 import 'package:suits/core/ui/app_image.dart';
+import 'package:suits/views/home/view.dart';
 
 import '../../core/ui/app_button.dart';
 
@@ -26,11 +28,17 @@ class _PaymentState extends State<Payment> {
       body: Center(
         child: Column(
           children: [
-            SizedBox(height: 100.h,),
+            SizedBox(height: 100.h),
             AppImage(image: "checked.png"),
-            SizedBox(height: 30.h,),
-            Text("Payment Successful!",style: TextStyle(fontSize: 30.sp,fontWeight: FontWeight.bold),),
-            Text("Thank you for your purchase.",style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.w700),),
+            SizedBox(height: 30.h),
+            Text(
+              "Payment Successful!",
+              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              "Thank you for your purchase.",
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
+            ),
           ],
         ),
       ),
@@ -38,7 +46,7 @@ class _PaymentState extends State<Payment> {
         padding: EdgeInsets.all(18.0.r),
         child: AppButton(
           onPressed: () {
-            setState(() {});
+            goTo(page: HomeView(), canPop: false);
           },
           text: "View Order",
           height: 50.h,
@@ -46,7 +54,6 @@ class _PaymentState extends State<Payment> {
           borderRadius: 10,
         ),
       ),
-
     );
   }
 }

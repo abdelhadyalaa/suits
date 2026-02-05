@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:suits/core/logic/helper_methods.dart';
 import 'package:suits/core/ui/app_button.dart';
-import 'package:suits/core/ui/app_image.dart';
+import 'package:suits/views/checkout_cycle/check_out.dart';
 
 class ProductDetailsSheet extends StatelessWidget {
   const ProductDetailsSheet({super.key});
@@ -73,7 +74,9 @@ class ProductDetailsSheet extends StatelessWidget {
               ],
             ),
           ),
-          AppButton(text: "Proceed to Checkout",borderRadius: 10,)
+          AppButton(text: "Proceed to Checkout",borderRadius: 10,onPressed: () {
+            goTo(page: CheckOut());
+          },)
 
         ],
       ),

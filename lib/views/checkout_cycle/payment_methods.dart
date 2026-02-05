@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:suits/core/logic/helper_methods.dart';
 import 'package:suits/core/ui/app_image.dart';
+import 'package:suits/views/checkout_cycle/add_card.dart';
 
 import '../../core/ui/app_button.dart';
+import 'check_out.dart';
 
 class PaymentMethods extends StatelessWidget {
   const PaymentMethods({super.key});
@@ -19,7 +22,7 @@ class PaymentMethods extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 18,vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 18, vertical: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -29,40 +32,50 @@ class PaymentMethods extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.sp),
             ),
             SizedBox(height: 26.h),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 22),
-              height: 45.h,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: Colors.grey),
-              ),
-              child: Row(
-                children: [
-                  AppImage(image: "credit_card.png", width: 30.w, height: 30.h),
-                  SizedBox(width: 10.w),
-                  Text(
-                    "Add Card",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14.sp,
+            GestureDetector(
+               onTap: () {
+                 goTo(page: AddCard());
+               },
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 22),
+                height: 45.h,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: Row(
+                  children: [
+                    AppImage(image: "credit_card.png", width: 30.w, height: 30.h),
+                    SizedBox(width: 10.w),
+                    Text(
+                      "Add Card",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.sp,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 26.h),
-            Text("More Payment Options",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 14.sp,
-              ),
-
+            Text(
+              "More Payment Options",
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp),
             ),
             SizedBox(height: 26.h),
             CustomProductRadioPicker(),
             Spacer(),
-            AppButton(text: 'Confirm Payment',height: 45.h,width: double.infinity,borderRadius: 10,)
+            AppButton(
+              text: 'Confirm Payment',
+              height: 45.h,
+              width: double.infinity,
+              borderRadius: 10,
+              onPressed: () {
+                goTo(page: CheckOut());
+              },
+            ),
           ],
         ),
       ),
@@ -94,7 +107,8 @@ class _CustomProductRadioPickerState extends State<CustomProductRadioPicker> {
           _buildRadioItem(
             id: "option1",
             title: "Paypal",
-            image: "https://logos-marcas.com/wp-content/uploads/2020/04/PayPal-s%C3%ADmbolo.png",
+            image:
+                "https://logos-marcas.com/wp-content/uploads/2020/04/PayPal-s%C3%ADmbolo.png",
           ),
 
           Divider(
@@ -107,7 +121,8 @@ class _CustomProductRadioPickerState extends State<CustomProductRadioPicker> {
           _buildRadioItem(
             id: "option2",
             title: "Apple Pay",
-            image: "https://avatars.mds.yandex.net/i?id=a7a70d51b67c554ad000f3ff2349ed8a1bbfbb71-2366455-images-thumbs&n=13",
+            image:
+                "https://avatars.mds.yandex.net/i?id=a7a70d51b67c554ad000f3ff2349ed8a1bbfbb71-2366455-images-thumbs&n=13",
           ),
 
           Divider(
@@ -120,7 +135,8 @@ class _CustomProductRadioPickerState extends State<CustomProductRadioPicker> {
           _buildRadioItem(
             id: "option3",
             title: "Google",
-            image: "https://avatars.mds.yandex.net/i?id=20133f4c9223e969edc3decc936722b3fd1aeafc-10157623-images-thumbs&n=13",
+            image:
+                "https://avatars.mds.yandex.net/i?id=20133f4c9223e969edc3decc936722b3fd1aeafc-10157623-images-thumbs&n=13",
           ),
         ],
       ),
@@ -138,7 +154,6 @@ class _CustomProductRadioPickerState extends State<CustomProductRadioPicker> {
       onTap: () {
         setState(() {
           selectedValue = id;
-
         });
       },
       borderRadius: BorderRadius.circular(15.r),
@@ -146,7 +161,6 @@ class _CustomProductRadioPickerState extends State<CustomProductRadioPicker> {
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         child: Row(
           children: [
-            // 1. الصورة
             ClipRRect(
               borderRadius: BorderRadius.circular(8.r),
               child: AppImage(

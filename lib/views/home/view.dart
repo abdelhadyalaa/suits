@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suits/views/home/pages/cart.dart';
 import 'package:suits/views/home/pages/fav.dart';
 import 'package:suits/views/home/pages/home.dart';
 import 'package:suits/views/home/pages/profile.dart';
 
-import '../../core/ui/app_drawar.dart';
 import '../../core/ui/app_image.dart';
 
 class HomeView extends StatefulWidget {
@@ -23,17 +21,11 @@ class _HomeViewState extends State<HomeView> {
     _Model("person.svg", ProfilePage()),
   ];
 
-  int currentIndex = 1;
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawerBarrierDismissible: true,
-      drawerEnableOpenDragGesture: true,
-      drawerEdgeDragWidth: 30,
-      drawerScrimColor: Colors.black.withOpacity(0.3),
-      drawer: DrawerItem(),
-
       body: list[currentIndex].pages,
 
       bottomNavigationBar: Container(

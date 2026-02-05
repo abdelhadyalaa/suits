@@ -1,8 +1,10 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:suits/core/logic/helper_methods.dart';
 import 'package:suits/core/ui/app_button.dart';
 import 'package:suits/core/ui/app_image.dart';
+import 'package:suits/views/checkout_cycle/add_card.dart';
 
 class ItemPage extends StatefulWidget {
   const ItemPage({super.key});
@@ -43,18 +45,23 @@ class _ItemPageState extends State<ItemPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12.0,
-                    vertical: 16,
-                  ),
-                  child: Align(
-                    alignment: AlignmentDirectional.centerStart,
-                    child: Transform.rotate(
-                      angle: 1 * math.pi,
-                      child: AppImage(
-                        image: "forward_stroke.svg",
-                        color: Colors.black,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0,
+                      vertical: 16,
+                    ),
+                    child: Align(
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Transform.rotate(
+                        angle: 1 * math.pi,
+                        child: AppImage(
+                          image: "forward_stroke.svg",
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -219,24 +226,23 @@ class _ItemPageState extends State<ItemPage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
                                 border: Border.all(
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColor,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
 
                               child: Center(
                                 child: Icon(
                                   Icons.favorite_border,
-                                  color: Theme
-                                      .of(context)
-                                      .primaryColor,
+                                  color: Theme.of(context).primaryColor,
                                 ),
                               ),
                             ),
-                            SizedBox(width: 30.w,),
+                            SizedBox(width: 30.w),
                             Expanded(
                               child: AppButton(
+                                onPressed: () {
+                                  goTo(page: AddCard());
+                                },
                                 text: "Add To Cart",
                                 borderRadius: 10,
                                 height: 50.h,
@@ -260,7 +266,7 @@ class _ItemPageState extends State<ItemPage> {
 class _ItemColor extends StatelessWidget {
   final Color color;
 
-  const _ItemColor({super.key, required this.color});
+  const _ItemColor({required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +281,7 @@ class _ItemColor extends StatelessWidget {
 class _ItemSize extends StatelessWidget {
   final String? size;
 
-  const _ItemSize({super.key, this.size});
+  const _ItemSize({this.size});
 
   @override
   Widget build(BuildContext context) {

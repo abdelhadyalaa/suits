@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:suits/core/logic/helper_methods.dart';
 import 'package:suits/core/ui/app_button.dart';
+import 'package:suits/views/checkout_cycle/payment.dart';
+import 'package:suits/views/checkout_cycle/shoping_address.dart';
 
 import '../../core/ui/app_image.dart';
 
@@ -56,15 +59,20 @@ class _CheckOutState extends State<CheckOut> {
               style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.sp),
             ),
             SizedBox(height: 26.h),
-            Row(
-              children: [
-                Icon(Icons.location_on_outlined),
-                SizedBox(width: 10.w),
-                Text(
-                  "Home",
-                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-                ),
-              ],
+            GestureDetector(
+              onTap: () {
+                goTo(page: ShippingAddress());
+              },
+              child: Row(
+                children: [
+                  Icon(Icons.location_on_outlined),
+                  SizedBox(width: 10.w),
+                  Text(
+                    "Home",
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 30.h),
             Text(
@@ -183,10 +191,7 @@ class _CheckOutState extends State<CheckOut> {
         padding: EdgeInsets.all(18.0.r),
         child: AppButton(
           onPressed: () {
-            setState(() {
-
-            });
-
+            goTo(page: Payment());
           },
           text: "Continue to payment",
           height: 50.h,

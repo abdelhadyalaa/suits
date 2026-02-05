@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:suits/core/logic/helper_methods.dart';
 import 'package:suits/core/ui/app_image.dart';
 
-import '../../../core/logic/helper_methods.dart';
+import '../../auth/login.dart';
 import '../../checkout_cycle/payment_methods.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -50,33 +51,118 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: 20.h),
               _Item(title: "Your Profile", imageIcon: "person.png"),
               _Item(title: "My Order", imageIcon: "menu.png"),
-              _Item(title: "Payment Methods", imageIcon: "credit_card.png",page: PaymentMethods(),),
+              _Item(
+                title: "Payment Methods",
+                imageIcon: "credit_card.png",
+                page: const PaymentMethods(),
+              ),
               _Item(title: "Wishlist", imageIcon: "fav.svg"),
               _Item(title: "Setting", imageIcon: "setting.png"),
-              _Item(title: "Log Out", imageIcon: "logout.png"),
+              _Item(
+                title: "Log Out",
+                imageIcon: "logout.png",
+                onTap: () => _showLogoutDialog(context),
+              ),
             ],
           ),
         ),
       ),
     );
   }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        contentPadding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+        title: Text(
+          "Log Out",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16.sp),
+        ),
+        content: SizedBox(
+          width: 350.w,
+          child: Text(
+            "Are you sure you want to log out?",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16.sp,
+              color: Colors.grey[700],
+            ),
+          ),
+        ),
+        actionsPadding: EdgeInsets.only(bottom: 20.h, left: 16.w, right: 16.w),
+        actions: [
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: Colors.grey, fontSize: 16.sp),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    goTo(page: const LoginView(), canPop: false);
+                  },
+                  child: Container(
+                    height: 48.h,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Yes, Logout",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15.sp,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class _Item extends StatefulWidget {
+class _Item extends StatelessWidget {
   final String title;
   final String imageIcon;
   final Widget? page;
+  final VoidCallback? onTap;
 
-  const _Item({required this.title, required this.imageIcon, this.page});
-
-  @override
-  State<_Item> createState() => _ItemState();
-}
-
-class _ItemState extends State<_Item> {
-  bool switchValue = false;
+  const _Item({
+    required this.title,
+    required this.imageIcon,
+    this.page,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -87,30 +173,33 @@ class _ItemState extends State<_Item> {
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withValues(alpha: 0.2),
+            color: Colors.grey.withOpacity(0.2),
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: ListTile(
         leading: AppImage(
-          image: widget.imageIcon,
+          image: imageIcon,
           height: 20.h,
           width: 20.w,
           color: Theme.of(context).primaryColor,
         ),
         title: Text(
-          widget.title,
+          title,
           style: TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 16.sp,
             color: Colors.black,
           ),
         ),
-
         onTap: () {
-          goTo(page: widget.page!);
+          if (onTap != null) {
+            onTap!();
+          } else if (page != null) {
+            goTo(page: page!);
+          }
         },
       ),
     );

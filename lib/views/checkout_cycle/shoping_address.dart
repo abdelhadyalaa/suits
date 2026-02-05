@@ -1,13 +1,16 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:suits/core/logic/helper_methods.dart';
+import 'package:suits/views/checkout_cycle/check_out.dart';
 
 import '../../core/ui/app_button.dart';
+import 'add_address.dart';
 
-class ShoppingAddress extends StatelessWidget {
-  ShoppingAddress({super.key});
+class ShippingAddress extends StatelessWidget {
+  ShippingAddress({super.key});
 
-  final List<String> categories = [
+  final List<String> Address = [
     "Home",
     "Office",
     "Parent’s House",
@@ -21,7 +24,9 @@ class ShoppingAddress extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsets.all(12.0),
           child: IconButton(
-            onPressed: () {},
+            onPressed: () {
+
+            },
             icon: const Icon(Icons.arrow_back_ios),
           ),
         ),
@@ -35,8 +40,8 @@ class ShoppingAddress extends StatelessWidget {
             children: [
               SizedBox(height: 50.h),
               ...List.generate(
-                categories.length,
-                (index) => _Item(locationName: categories[index]),
+                Address.length,
+                (index) => _Item(locationName: Address[index]),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -51,7 +56,10 @@ class ShoppingAddress extends StatelessWidget {
                   child: SizedBox(
                     width: double.infinity,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        goTo(page: AddAddress());
+
+                      },
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
                         padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -76,8 +84,10 @@ class ShoppingAddress extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(18.0.r),
         child: AppButton(
-          onPressed: () {},
-          text: "Continue to payment",
+          onPressed: () {
+            goTo(page: CheckOut());
+          },
+          text: "Apply",
           height: 50.h,
           width: double.infinity,
           borderRadius: 10,
@@ -88,7 +98,7 @@ class ShoppingAddress extends StatelessWidget {
 }
 
 class _Item extends StatelessWidget {
-  const _Item({super.key, required this.locationName});
+  const _Item({required this.locationName});
 
   final String locationName;
 

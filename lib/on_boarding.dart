@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suits/core/logic/helper_methods.dart';
-import 'package:suits/views/auth/login.dart';
-import '../core/ui/app_button.dart';
 import '../core/ui/app_image.dart';
 import 'get_start.dart';
 

@@ -9,16 +9,26 @@ class FavPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
         title: Text(
           "My Wishlist",
           style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 18),
-        child: SafeArea(child: Column(children: [TapsWidget(isFav:true,)])),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: Column(
+            children: [
+              SizedBox(height: 10.h),
+              const TapsWidget(isFav: true),
+            ],
+          ),
+        ),
       ),
     );
   }

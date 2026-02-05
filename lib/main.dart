@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suits/splash.dart';
-import 'package:suits/views/auth/login.dart';
-import 'package:suits/views/home/pages/fav.dart';
 
 import 'core/logic/helper_methods.dart';
 
@@ -51,7 +49,7 @@ class MyApp extends StatelessWidget {
           ),
           scaffoldBackgroundColor: Color(0xffF4F5F7),
         ),
-        home: FavPage(),
+        home: SplashScreen(),
         navigatorKey: navKey,
       ),
     );

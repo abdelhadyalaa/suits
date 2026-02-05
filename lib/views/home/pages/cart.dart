@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:suits/core/ui/app_image.dart';
-
-import '../../../core/ui/bottom_sheete.dart';
 import '../../../core/ui/item_apply.dart';
 
 class CartPage extends StatefulWidget {
@@ -14,67 +12,53 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  List<String> items = [
-    "Classic Blazar",
-    "Classic Blazar",
-    "Classic Blazar",
-    "Classic Blazar",
+  List<Map<String, dynamic>> cartItems = [
+    {"name": "Classic Blazar", "size": "XL", "price": 83.97, "count": 1},
+    {"name": "Casual Suit", "size": "L", "price": 120.00, "count": 1},
+    {"name": "Slim Fit Jacket", "size": "M", "price": 95.50, "count": 1},
   ];
-  int _counter = 1;
-
-  void _plus() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  void _minus() {
-    setState(() {
-      if (_counter > 1) {
-        _counter--;
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        title: const Text("My cards"),
+        title: const Text("My Cart"),
         centerTitle: true,
-        leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
       ),
       body: ListView.builder(
         padding: EdgeInsets.symmetric(vertical: 12.h),
-        itemCount: items.length,
+        itemCount: cartItems.length,
         itemBuilder: (context, index) {
+          final item = cartItems[index];
           return Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12.r),
               child: Slidable(
-                key: ValueKey(items[index]),
+                key: ValueKey(item['name'] + index.toString()),
                 endActionPane: ActionPane(
                   motion: const ScrollMotion(),
                   extentRatio: 0.25,
-                  dismissible: DismissiblePane(
-                    onDismissed: () => _deleteItem(index),
-                  ),
                   children: [
                     SlidableAction(
                       onPressed: (context) => _deleteItem(index),
                       backgroundColor: const Color(0xFFFE4A49),
                       foregroundColor: Colors.white,
                       icon: Icons.delete,
+                      label: 'Delete',
                     ),
                   ],
                 ),
                 child: Container(
-                  height: 150,
+                  height: 120.h,
                   width: double.infinity,
                   color: Colors.white,
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  padding: EdgeInsets.all(10.r),
                   child: Row(
                     children: [
                       GestureDetector(
@@ -86,89 +70,70 @@ class _CartPageState extends State<CartPage> {
                             builder: (context) => const ProductDetailsSheet(),
                           );
                         },
-                        child: AppImage(
-                          image: "boarding2.jpg",
-                          width: 120,
-                          height: 150,
-                          fit: BoxFit.fill,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8.r),
+                          child: AppImage(
+                            image: "boarding2.jpg",
+                            width: 100.w,
+                            height: 100.h,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
-                      Column(
-                        children: [
-                          Text(
-                            "Classic Blazar",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14.sp,
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              item['name'],
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Size:xl",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12.sp,
+                            Text(
+                              "Size: ${item['size']}",
+                              style: TextStyle(
+                                fontSize: 12.sp,
+                                color: Colors.grey,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "\$83.97",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 12.sp,
+                            SizedBox(height: 8.h),
+                            Text(
+                              "\$${item['price']}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                                color: Theme.of(context).primaryColor,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: _minus,
-                              icon: Icon(
-                                Icons.remove,
-
-                                size: 20.sp,
-                                color: _counter > 1
-                                    ? Colors.white
-                                    : Colors.black26,
+                          _buildCounterBtn(Icons.remove, () {
+                            if (item['count'] > 1) {
+                              setState(() => item['count']--);
+                            }
+                          }),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8.w),
+                            child: Text(
+                              '${item['count']}',
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
-                          Text(
-                            '$_counter',
-                            style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(horizontal: 10),
-
-                            width: 30.w,
-                            height: 30.h,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: IconButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: _plus,
-                              icon: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 20.sp,
-                              ),
-                            ),
-                          ),
+                          _buildCounterBtn(Icons.add, () {
+                            setState(() => item['count']++);
+                          }),
                         ],
                       ),
                     ],
@@ -182,27 +147,27 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
-  void _deleteItem(int index) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) => DeleteConfirmationSheet(
-        onConfirm: () {
-          setState(() {
-            items.removeAt(index);
-          });
-
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("تم حذف المنتج بنجاح"),
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(seconds: 2),
-            ),
-          );
-        },
+  Widget _buildCounterBtn(IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 28.w,
+        height: 28.h,
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(6.r),
+        ),
+        child: Icon(icon, size: 18.sp, color: Theme.of(context).primaryColor),
       ),
     );
+  }
+
+  void _deleteItem(int index) {
+    setState(() {
+      cartItems.removeAt(index);
+    });
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Item removed from cart")));
   }
 }
