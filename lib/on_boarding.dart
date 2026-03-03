@@ -31,7 +31,7 @@ class _OnBoardingState extends State<OnBoarding> {
 
   @override
   Widget build(BuildContext context) {
-    bool isLast = currentIndex == list.length-1;
+    bool isLast = currentIndex == list.length - 1;
     bool isFirst = currentIndex == 0;
     final currentModel = list[currentIndex];
 
@@ -115,7 +115,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                     height: 50.h,
                                     decoration: BoxDecoration(
                                       border: Border.all(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(24.r),
+                                      borderRadius: BorderRadius.circular(30.r),
                                     ),
                                     child: AppImage(
                                       image: "forward_stroke.svg",
@@ -133,13 +133,13 @@ class _OnBoardingState extends State<OnBoarding> {
                                 (index) => AnimatedContainer(
                                   duration: const Duration(milliseconds: 300),
                                   margin: const EdgeInsets.symmetric(
-                                    horizontal: 4,
+                                    horizontal: 10,
                                   ),
-                                  height: 10.h,
+                                  height: currentIndex == index ? 15.h: 10.h,
 
-                                  width: currentIndex == index ? 20.w : 10.w,
+                                  width: currentIndex == index ? 15.w : 10.w,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(4.r),
+                                    borderRadius: BorderRadius.circular(15.r),
 
                                     color: currentIndex == index
                                         ? Theme.of(context).primaryColor
@@ -162,7 +162,7 @@ class _OnBoardingState extends State<OnBoarding> {
                                 width: 50.w,
                                 height: 50.h,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24.r),
+                                  borderRadius: BorderRadius.circular(30.r),
                                   color: Theme.of(context).primaryColor,
                                 ),
                                 child: AppImage(

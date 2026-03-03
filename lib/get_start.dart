@@ -22,9 +22,11 @@ class FinalPage extends StatelessWidget {
                   Container(
                     width: 137.w,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100.r),
+                      borderRadius: BorderRadius.circular(45.r),
                     ),
-                    child: Center(child: AppImage(image: "boarding3.jpg")),
+                    child: Center(child: ClipRRect(
+                        borderRadius: BorderRadius.circular(45.r),
+                        child: AppImage(image: "boarding3.png"))),
                   ),
                   SizedBox(width: 50.w),
 

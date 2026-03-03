@@ -20,20 +20,22 @@ class _LoginViewState extends State<LoginView> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  bool autoValidate = false;
+
   final list = [
     _Model(
       image:
-          "https://static.vecteezy.com/system/resources/previews/022/613/027/large_2x/google-icon-logo-symbol-free-png.png",
+      "https://static.vecteezy.com/system/resources/previews/022/613/027/large_2x/google-icon-logo-symbol-free-png.png",
       title: "Sign in with google",
     ),
     _Model(
       image:
-          "https://media.licdn.com/dms/image/v2/D4D22AQFkRMtM-h3APQ/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1711605718829?e=2147483647&v=beta&t=bIbOeiU0IetdPgtWuEhk7V0pIOBiDAVnGGHqmaSlpr8",
+      "https://media.licdn.com/dms/image/v2/D4D22AQFkRMtM-h3APQ/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1711605718829?e=2147483647&v=beta&t=bIbOeiU0IetdPgtWuEhk7V0pIOBiDAVnGGHqmaSlpr8",
       title: "Sign in with Apple",
     ),
     _Model(
       image:
-          "https://i.pinimg.com/736x/7b/ed/39/7bed398644d61cae7c4dd853b558a1c9.jpg",
+      "https://i.pinimg.com/736x/7b/ed/39/7bed398644d61cae7c4dd853b558a1c9.jpg",
       title: "Sign in with Facebook",
     ),
   ];
@@ -62,6 +64,9 @@ class _LoginViewState extends State<LoginView> {
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: Form(
           key: _formKey,
+          autovalidateMode: autoValidate
+              ? AutovalidateMode.onUserInteraction
+              : AutovalidateMode.disabled,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -72,6 +77,7 @@ class _LoginViewState extends State<LoginView> {
                 style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 40.h),
+
               AppInput(
                 controller: emailController,
                 label: "Enter your email",
@@ -97,6 +103,9 @@ class _LoginViewState extends State<LoginView> {
                   return null;
                 },
               ),
+
+              SizedBox(height: 22.h),
+
               GestureDetector(
                 onTap: () => goTo(page: const ForgetPassword()),
                 child: Text(
@@ -110,6 +119,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
               ),
               SizedBox(height: 22.h),
+
               AppButton(
                 text: "Sign In",
                 borderRadius: 32.sp,
@@ -117,9 +127,14 @@ class _LoginViewState extends State<LoginView> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _showSuccessDialog(context);
+                  } else {
+                    setState(() {
+                      autoValidate = true;
+                    });
                   }
                 },
               ),
+
               SizedBox(height: 20.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +180,7 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(height: 40.h),
               ...List.generate(
                 list.length,
-                (index) => Container(
+                    (index) => Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   padding: const EdgeInsets.all(12),
                   width: double.infinity,

@@ -37,6 +37,7 @@ class AppInput extends StatefulWidget {
 
 class _AppInputState extends State<AppInput> {
   bool isHidden = true;
+  bool isValid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,66 +51,98 @@ class _AppInputState extends State<AppInput> {
             child: TextFormField(
               controller: widget.controller,
               keyboardType: widget.keyboardType,
-              validator:
-                  widget.validator ??
-                  (value) {
+              maxLines: widget.isBig ? 4 : 1,
+              obscureText: widget.isPassword && isHidden,
+
+              validator: widget.validator ??
+                      (value) {
                     if (value == null || value.isEmpty) {
                       return widget.isPassword
                           ? "Please Put Your Password"
-                          : 'Please Put Your Data';
+                          : "Please Put Your Data";
                     }
                     return null;
                   },
-              maxLines: widget.isBig ? 4 : 1,
-              obscureText: widget.isPassword && isHidden,
+
+              onChanged: (value) {
+                if (!widget.isPassword) {
+                  if (widget.validator != null) {
+                    isValid = widget.validator!(value) == null;
+                  } else {
+                    isValid = value.isNotEmpty;
+                  }
+                  setState(() {});
+                }
+              },
+
+
               decoration: InputDecoration(
                 filled: true,
-                errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red, width: 2.0),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: const BorderSide(color: Colors.red, width: 2.0),
+                fillColor: Colors.white,
+
+                enabledBorder: OutlineInputBorder(
+                  borderRadius:
+                  BorderRadius.circular(effectiveRadius),
+                  borderSide:
+                  const BorderSide(color: Colors.grey),
                 ),
 
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(effectiveRadius),
-                  borderSide: BorderSide(color: Colors.grey),
-                ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius:
+                  BorderRadius.circular(effectiveRadius),
                   borderSide: BorderSide(
                     color: Theme.of(context).primaryColor,
                     width: 2,
                   ),
                 ),
+
+                errorBorder: const OutlineInputBorder(
+                  borderSide:
+                  BorderSide(color: Colors.red, width: 2),
+                ),
+
+                focusedErrorBorder: const OutlineInputBorder(
+                  borderSide:
+                  BorderSide(color: Colors.red, width: 2),
+                ),
+
                 labelText: widget.label,
-                labelStyle: TextStyle(color: Colors.black),
+                labelStyle:
+                const TextStyle(color: Colors.black),
                 hintText: widget.hint,
+
                 prefixIcon: widget.prefixImage.isNotEmpty
-                    ? AppImage(image: widget.prefixImage, width: 20, height: 20)
+                    ? AppImage(
+                  image: widget.prefixImage,
+                  width: 20,
+                  height: 20,
+                )
                     : null,
 
                 suffixIcon: widget.isPassword
                     ? IconButton(
-                        onPressed: () {
-                          isHidden = !isHidden;
-                          setState(() {});
-                        },
-                        icon: AppImage(
-                          image: isHidden
-                              ? "visibility_off.svg"
-                              : "visibility.svg",
-                        ),
-                      )
+                  onPressed: () {
+                    isHidden = !isHidden;
+                    setState(() {});
+                  },
+                  icon: AppImage(
+                    image: isHidden
+                        ? "visibility_off.svg"
+                        : "visibility.svg",
+                  ),
+                )
+                    : isValid
+                    ?  Icon(
+                  Icons.check,
+                  color:Theme.of(context).primaryColor ,
+                )
                     : widget.suffixIcon != null
                     ? AppImage(
-                        image: widget.suffixIcon!,
-                        height: 18,
-                        width: 18,
-                        color: Colors.black,
-                      )
+                  image: widget.suffixIcon!,
+                  height: 18,
+                  width: 18,
+                  color: Colors.black,
+                )
                     : null,
               ),
             ),
