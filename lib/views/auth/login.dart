@@ -25,17 +25,17 @@ class _LoginViewState extends State<LoginView> {
   final list = [
     _Model(
       image:
-      "https://static.vecteezy.com/system/resources/previews/022/613/027/large_2x/google-icon-logo-symbol-free-png.png",
+          "https://static.vecteezy.com/system/resources/previews/022/613/027/large_2x/google-icon-logo-symbol-free-png.png",
       title: "Sign in with google",
     ),
     _Model(
       image:
-      "https://media.licdn.com/dms/image/v2/D4D22AQFkRMtM-h3APQ/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1711605718829?e=2147483647&v=beta&t=bIbOeiU0IetdPgtWuEhk7V0pIOBiDAVnGGHqmaSlpr8",
+          "https://media.licdn.com/dms/image/v2/D4D22AQFkRMtM-h3APQ/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1711605718829?e=2147483647&v=beta&t=bIbOeiU0IetdPgtWuEhk7V0pIOBiDAVnGGHqmaSlpr8",
       title: "Sign in with Apple",
     ),
     _Model(
       image:
-      "https://i.pinimg.com/736x/7b/ed/39/7bed398644d61cae7c4dd853b558a1c9.jpg",
+          "https://i.pinimg.com/736x/7b/ed/39/7bed398644d61cae7c4dd853b558a1c9.jpg",
       title: "Sign in with Facebook",
     ),
   ];
@@ -45,6 +45,21 @@ class _LoginViewState extends State<LoginView> {
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  void signInWithGoogle() {
+    showMsg("Google Login Successfully");
+    goTo(page: HomeView(), canPop: false, delaySeconds: 1);
+  }
+
+  void signInWithApple() {
+    showMsg("Apple Login Successfully");
+    goTo(page: HomeView(), canPop: false, delaySeconds: 1);
+  }
+
+  void signInWithFacebook() {
+    showMsg("Facebook Login Successfully");
+    goTo(page: HomeView(), canPop: false, delaySeconds: 1);
   }
 
   @override
@@ -90,6 +105,7 @@ class _LoginViewState extends State<LoginView> {
                   return null;
                 },
               ),
+
               AppInput(
                 controller: passwordController,
                 isPassword: true,
@@ -118,6 +134,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
               ),
+
               SizedBox(height: 22.h),
 
               AppButton(
@@ -136,6 +153,7 @@ class _LoginViewState extends State<LoginView> {
               ),
 
               SizedBox(height: 20.h),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -156,7 +174,9 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
+
               SizedBox(height: 34.h),
+
               Row(
                 children: [
                   Expanded(
@@ -177,35 +197,48 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
+
               SizedBox(height: 40.h),
+
               ...List.generate(
                 list.length,
-                    (index) => Container(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  padding: const EdgeInsets.all(12),
-                  width: double.infinity,
-                  height: 56.h,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(32.sp),
-                    border: Border.all(color: Colors.grey.shade200),
-                  ),
-                  child: Row(
-                    children: [
-                      AppImage(
-                        image: list[index].image,
-                        width: 30.w,
-                        height: 30.h,
-                      ),
-                      SizedBox(width: 50.w),
-                      Text(
-                        list[index].title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.sp,
+                (index) => GestureDetector(
+                  onTap: () {
+                    if (index == 0) {
+                      signInWithGoogle();
+                    } else if (index == 1) {
+                      signInWithApple();
+                    } else if (index == 2) {
+                      signInWithFacebook();
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.all(12),
+                    width: double.infinity,
+                    height: 56.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(32.sp),
+                      border: Border.all(color: Colors.grey.shade200),
+                    ),
+                    child: Row(
+                      children: [
+                        AppImage(
+                          image: list[index].image,
+                          width: 30.w,
+                          height: 30.h,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 50.w),
+                        Text(
+                          list[index].title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

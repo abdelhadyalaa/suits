@@ -25,7 +25,10 @@ void goTo({required Widget page, bool canPop = true, int? delaySeconds}) {
 void showMsg(String msg) {
   if (msg.isNotEmpty) {
     ScaffoldMessenger.of(
+
       navKey.currentContext!,
-    ).showSnackBar(SnackBar(content: Text(msg)));
+    ).showSnackBar(
+
+        SnackBar(content: Text(msg),backgroundColor: Colors.green,));
   }
 }

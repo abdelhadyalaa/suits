@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:suits/core/logic/helper_methods.dart';
 import 'package:suits/core/ui/app_button.dart';
 import 'package:suits/core/ui/app_input.dart';
-
 import 'otp.dart';
 
 class ForgetPassword extends StatefulWidget {
@@ -17,6 +16,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+
   int selectedTab = 0;
 
   @override
@@ -37,6 +37,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       ),
       body: Form(
         key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 18.w),
           child: Column(
@@ -72,11 +73,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   label: "Email",
                   hint: "example@mail.com",
                   prefixImage: "orange_email.png",
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Email is required";
-                    }
-                    if (!value.contains("@")) return "Invalid email format";
+                    if (selectedTab != 0) return null;
+                    if (value == null || value.isEmpty) return "Email is required";
+                    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$');
+                    if (!emailRegex.hasMatch(value)) return "Invalid email format";
                     return null;
                   },
                 )
@@ -88,10 +90,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   keyboardType: TextInputType.phone,
                   prefixImage: "call.png",
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return "Phone number is required";
-                    }
-                    if (value.length < 11) return "Invalid phone number";
+                    if (selectedTab != 1) return null;
+                    if (value == null || value.isEmpty) return "Phone number is required";
+                    if (value.length != 11) return "Invalid phone number";
                     return null;
                   },
                 ),
@@ -101,9 +102,15 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 borderRadius: 32,
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    String destination = selectedTab == 0 ? emailController.text : phoneController.text;
-
+                    String destination =
+                    selectedTab == 0 ? emailController.text : phoneController.text;
                     goTo(page: OTPView(phoneNumber: destination));
+                  } else {
+                    if (selectedTab == 0 && (emailController.text.isEmpty)) {
+                      showMsg("Email is required");
+                    } else if (selectedTab == 1 && (phoneController.text.isEmpty)) {
+                      showMsg("Phone number is required");
+                    }
                   }
                 },
               ),
@@ -120,7 +127,9 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       child: GestureDetector(
         onTap: () {
           _formKey.currentState?.reset();
-          setState(() => selectedTab = index);
+          setState(() {
+            selectedTab = index;
+          });
         },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -129,12 +138,12 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             borderRadius: BorderRadius.circular(24.r),
             boxShadow: isSelected
                 ? [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ]
+              BoxShadow(
+                color: Colors.black.withOpacity(.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ]
                 : [],
           ),
           child: Text(
