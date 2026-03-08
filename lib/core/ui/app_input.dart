@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'app_image.dart';
 
@@ -12,6 +13,7 @@ class AppInput extends StatefulWidget {
   final String hint, label, prefixImage;
   final bool withCountryCode, isPassword, isBig, isEmail;
   final double? bottomSpace, radius;
+  final List<TextInputFormatter>? inputFormatters;
 
   const AppInput({
     super.key,
@@ -30,6 +32,7 @@ class AppInput extends StatefulWidget {
     this.radius = 24,
     this.controller,
     this.validator,
+    this.inputFormatters,
   });
 
   @override
@@ -83,6 +86,11 @@ class _AppInputState extends State<AppInput> {
             keyboardType: widget.keyboardType,
             maxLines: widget.isBig ? 4 : 1,
             obscureText: widget.isPassword && isHidden,
+            inputFormatters: widget.isEmail
+                ? [
+              FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9@._\-]')),
+            ]
+                : widget.inputFormatters,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return widget.isPassword

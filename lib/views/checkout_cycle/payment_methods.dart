@@ -171,7 +171,6 @@ class _CustomProductRadioPickerState extends State<CustomProductRadioPicker> {
               ),
             ),
             SizedBox(width: 15.w),
-
             Expanded(
               child: Text(
                 title,
@@ -184,7 +183,6 @@ class _CustomProductRadioPickerState extends State<CustomProductRadioPicker> {
                 ),
               ),
             ),
-
             Radio<String>(
               value: id,
               groupValue: selectedValue,
